@@ -8,15 +8,11 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Users is the golang structure for table users.
-type Users struct {
-	Id            uint        `json:"Id"            ` //
+// User is the golang structure for table user.
+type User struct {
+	UserId        uint        `json:"UserId"        ` //
 	Nickname      string      `json:"Nickname"      ` //
 	Mobile        string      `json:"Mobile"        ` // 手机号
-	ProfilePic    string      `json:"ProfilePic"    ` // 头像
-	Sign          string      `json:"Sign"          ` // 签名
-	Fans          uint        `json:"Fans"          ` // 粉丝数
-	Follows       uint        `json:"Follows"       ` // 关注数
 	Passport      string      `json:"Passport"      ` //
 	Password      string      `json:"Password"      ` //
 	RememberToken string      `json:"RememberToken" ` //

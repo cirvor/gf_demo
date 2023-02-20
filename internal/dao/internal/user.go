@@ -11,22 +11,18 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// UsersDao is the data access object for table users.
-type UsersDao struct {
-	table   string       // table is the underlying table name of the DAO.
-	group   string       // group is the database configuration group name of current DAO.
-	columns UsersColumns // columns contains all the column names of Table for convenient usage.
+// UserDao is the data access object for table user.
+type UserDao struct {
+	table   string      // table is the underlying table name of the DAO.
+	group   string      // group is the database configuration group name of current DAO.
+	columns UserColumns // columns contains all the column names of Table for convenient usage.
 }
 
-// UsersColumns defines and stores column names for table users.
-type UsersColumns struct {
-	Id            string //
+// UserColumns defines and stores column names for table user.
+type UserColumns struct {
+	UserId        string //
 	Nickname      string //
 	Mobile        string // 手机号
-	ProfilePic    string // 头像
-	Sign          string // 签名
-	Fans          string // 粉丝数
-	Follows       string // 关注数
 	Passport      string //
 	Password      string //
 	RememberToken string //
@@ -34,15 +30,11 @@ type UsersColumns struct {
 	UpdatedAt     string //
 }
 
-// usersColumns holds the columns for table users.
-var usersColumns = UsersColumns{
-	Id:            "id",
+// userColumns holds the columns for table user.
+var userColumns = UserColumns{
+	UserId:        "user_id",
 	Nickname:      "nickname",
 	Mobile:        "mobile",
-	ProfilePic:    "profile_pic",
-	Sign:          "sign",
-	Fans:          "fans",
-	Follows:       "follows",
 	Passport:      "passport",
 	Password:      "password",
 	RememberToken: "remember_token",
@@ -50,37 +42,37 @@ var usersColumns = UsersColumns{
 	UpdatedAt:     "updated_at",
 }
 
-// NewUsersDao creates and returns a new DAO object for table data access.
-func NewUsersDao() *UsersDao {
-	return &UsersDao{
+// NewUserDao creates and returns a new DAO object for table data access.
+func NewUserDao() *UserDao {
+	return &UserDao{
 		group:   "default",
-		table:   "users",
-		columns: usersColumns,
+		table:   "user",
+		columns: userColumns,
 	}
 }
 
 // DB retrieves and returns the underlying raw database management object of current DAO.
-func (dao *UsersDao) DB() gdb.DB {
+func (dao *UserDao) DB() gdb.DB {
 	return g.DB(dao.group)
 }
 
 // Table returns the table name of current dao.
-func (dao *UsersDao) Table() string {
+func (dao *UserDao) Table() string {
 	return dao.table
 }
 
 // Columns returns all column names of current dao.
-func (dao *UsersDao) Columns() UsersColumns {
+func (dao *UserDao) Columns() UserColumns {
 	return dao.columns
 }
 
 // Group returns the configuration group name of database of current dao.
-func (dao *UsersDao) Group() string {
+func (dao *UserDao) Group() string {
 	return dao.group
 }
 
 // Ctx creates and returns the Model for current DAO, It automatically sets the context for current operation.
-func (dao *UsersDao) Ctx(ctx context.Context) *gdb.Model {
+func (dao *UserDao) Ctx(ctx context.Context) *gdb.Model {
 	return dao.DB().Model(dao.table).Safe().Ctx(ctx)
 }
 
@@ -90,6 +82,6 @@ func (dao *UsersDao) Ctx(ctx context.Context) *gdb.Model {
 //
 // Note that, you should not Commit or Rollback the transaction in function f
 // as it is automatically handled by this function.
-func (dao *UsersDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
+func (dao *UserDao) Transaction(ctx context.Context, f func(ctx context.Context, tx gdb.TX) error) (err error) {
 	return dao.Ctx(ctx).Transaction(ctx, f)
 }

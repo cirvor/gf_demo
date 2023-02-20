@@ -8,19 +8,19 @@ import (
 	"gf_demo/internal/dao/internal"
 )
 
-// internalUsersDao is internal type for wrapping internal DAO implements.
-type internalUsersDao = *internal.UsersDao
+// internalUserDao is internal type for wrapping internal DAO implements.
+type internalUserDao = *internal.UserDao
 
-// usersDao is the data access object for table users.
+// userDao is the data access object for table user.
 // You can define custom methods on it to extend its functionality as you wish.
-type usersDao struct {
-	internalUsersDao
+type userDao struct {
+	internalUserDao
 }
 
 var (
-	// Users is globally public accessible object for table users operations.
-	Users = usersDao{
-		internal.NewUsersDao(),
+	// User is globally public accessible object for table user operations.
+	User = userDao{
+		internal.NewUserDao(),
 	}
 )
 

@@ -9,8 +9,9 @@ type Context struct {
 	User    *ContextUser   // User in context.
 }
 
+// ContextUser test
 type ContextUser struct {
-	Id       uint   // User ID.
+	UserId   uint   // User ID.
 	Passport string // User passport.
 	Nickname string // User nickname.
 }

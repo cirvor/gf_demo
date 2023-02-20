@@ -9,16 +9,12 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Users is the golang structure of table users for DAO operations like Where/Data.
-type Users struct {
-	g.Meta        `orm:"table:users, do:true"`
-	Id            interface{} //
+// User is the golang structure of table user for DAO operations like Where/Data.
+type User struct {
+	g.Meta        `orm:"table:user, do:true"`
+	UserId        interface{} //
 	Nickname      interface{} //
 	Mobile        interface{} // 手机号
-	ProfilePic    interface{} // 头像
-	Sign          interface{} // 签名
-	Fans          interface{} // 粉丝数
-	Follows       interface{} // 关注数
 	Passport      interface{} //
 	Password      interface{} //
 	RememberToken interface{} //

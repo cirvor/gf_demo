@@ -49,8 +49,8 @@ func (s *sUser) Create(ctx context.Context, in model.UserCreateInput) (err error
 	if !available {
 		return gerror.Newf(`Nickname "%s" is already token by others`, in.Nickname)
 	}
-	return dao.Users.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
-		_, err = dao.Users.Ctx(ctx).Data(do.Users{
+	return dao.User.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		_, err = dao.User.Ctx(ctx).Data(do.User{
 			Passport: in.Passport,
 			Password: in.Password,
 			Nickname: in.Nickname,
@@ -69,8 +69,8 @@ func (s *sUser) IsSignedIn(ctx context.Context) bool {
 
 // SignIn creates session for given user account.
 func (s *sUser) SignIn(ctx context.Context, in model.UserSignInInput) (err error) {
-	var user *entity.Users
-	err = dao.Users.Ctx(ctx).Where(do.Users{
+	var user *entity.User
+	err = dao.User.Ctx(ctx).Where(do.User{
 		Passport: in.Passport,
 		Password: in.Password,
 	}).Scan(&user)
@@ -84,7 +84,7 @@ func (s *sUser) SignIn(ctx context.Context, in model.UserSignInInput) (err error
 		return err
 	}
 	service.BizCtx().SetUser(ctx, &model.ContextUser{
-		Id:       user.Id,
+		UserId:   user.UserId,
 		Passport: user.Passport,
 		Nickname: user.Nickname,
 	})
@@ -98,7 +98,7 @@ func (s *sUser) SignOut(ctx context.Context) error {
 
 // IsPassportAvailable checks and returns given passport is available for signing up.
 func (s *sUser) IsPassportAvailable(ctx context.Context, passport string) (bool, error) {
-	count, err := dao.Users.Ctx(ctx).Where(do.Users{
+	count, err := dao.User.Ctx(ctx).Where(do.User{
 		Passport: passport,
 	}).Count()
 	if err != nil {
@@ -109,7 +109,7 @@ func (s *sUser) IsPassportAvailable(ctx context.Context, passport string) (bool,
 
 // IsNicknameAvailable checks and returns given nickname is available for signing up.
 func (s *sUser) IsNicknameAvailable(ctx context.Context, nickname string) (bool, error) {
-	count, err := dao.Users.Ctx(ctx).Where(do.Users{
+	count, err := dao.User.Ctx(ctx).Where(do.User{
 		Nickname: nickname,
 	}).Count()
 	if err != nil {
@@ -119,6 +119,6 @@ func (s *sUser) IsNicknameAvailable(ctx context.Context, nickname string) (bool,
 }
 
 // GetProfile retrieves and returns current user info in session.
-func (s *sUser) GetProfile(ctx context.Context) *entity.Users {
+func (s *sUser) GetProfile(ctx context.Context) *entity.User {
 	return service.Session().GetUser(ctx)
 }
