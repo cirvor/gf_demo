@@ -10,7 +10,7 @@ type UserProfileReq struct {
 	g.Meta `path:"/user/profile" method:"get" tags:"UserService" summary:"Get the profile of current user"`
 }
 type UserProfileRes struct {
-	*entity.Users
+	*entity.User
 }
 
 type UserSignUpReq struct {

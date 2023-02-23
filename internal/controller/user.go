@@ -74,7 +74,7 @@ func (c *cUser) CheckNickName(ctx context.Context, req *v1.UserCheckNickNameReq)
 // Profile returns the user profile.
 func (c *cUser) Profile(ctx context.Context, req *v1.UserProfileReq) (res *v1.UserProfileRes, err error) {
 	res = &v1.UserProfileRes{
-		Users: service.User().GetProfile(ctx),
+		User: service.User().GetProfile(ctx),
 	}
 	return
 }
