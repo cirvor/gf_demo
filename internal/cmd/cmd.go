@@ -3,14 +3,14 @@ package cmd
 import (
 	"context"
 	"gf_demo/internal/consts"
+	"gf_demo/internal/controller"
+	"gf_demo/internal/service"
 
 	"github.com/gogf/gf/v2/net/goai"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-
-	"gf_demo/internal/controller"
 )
 
 var (
@@ -23,24 +23,21 @@ var (
 			// 设置全局中间件
 			s.Use(ghttp.MiddlewareHandlerResponse)
 			s.Group("/", func(group *ghttp.RouterGroup) {
-				// 当前组设置中间件
-				//group.Middleware(
-				//	service.Middleware().Ctx,
-				//	ghttp.MiddlewareCORS,
-				//)
-				// 声明路由映射
-				group.Bind(
-					controller.Hello,
-					controller.User,
+				// Group middlewares.
+				group.Middleware(
+					service.Middleware().Ctx,
+					ghttp.MiddlewareCORS,
 				)
-
-				// Special handler that needs authentication.
-				//group.Group("/", func(group *ghttp.RouterGroup) {
-				//	group.Middleware(service.Middleware().Auth)
-				//	group.ALLMap(g.Map{
-				//		"/user/profile": controller.User.Profile,
-				//	})
-				//})
+				// 注册用户模块
+				group.Bind(
+					controller.UserNLI,
+				)
+				group.Group("/", func(group *ghttp.RouterGroup) {
+					group.Middleware(service.Middleware().Auth)
+					group.Bind(
+						controller.User,
+					)
+				})
 			})
 
 			// 额外处理接口文档显示数据
