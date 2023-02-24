@@ -31,6 +31,7 @@ var (
 				// 注册用户模块
 				group.Bind(
 					controller.UserNLI,
+					controller.Redis,
 				)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Middleware(service.Middleware().Auth)
