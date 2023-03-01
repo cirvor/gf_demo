@@ -7,4 +7,5 @@ import (
 type RedisTestReq struct {
 	g.Meta `path:"/redis-test" tags:"test" method:"get" summary:"You first hello api"`
 }
-type RedisTestRes struct{}
+
+type RedisTestRes string

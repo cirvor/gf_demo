@@ -2,8 +2,10 @@ package controller
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/golang-module/carbon/v2"
 
 	v1 "gf_demo/api/v1"
 )
@@ -15,6 +17,17 @@ var (
 type cRedis struct{}
 
 func (c *cRedis) Test(ctx context.Context, req *v1.RedisTestReq) (res *v1.RedisTestRes, err error) {
-	g.RequestFromCtx(ctx).Response.Writeln("Hello World!")
+	_, err = g.Redis().Set(ctx, "key", carbon.Now().ToDateTimeString())
+	if err != nil {
+		g.Log().Fatal(ctx, err)
+	}
+	value, err := g.Redis().Get(ctx, "key")
+	if err != nil {
+		g.Log().Fatal(ctx, err)
+	}
+	fmt.Println(value.String())
+
+	//res = &v1.RedisTestRes(value.String())
+
 	return
 }

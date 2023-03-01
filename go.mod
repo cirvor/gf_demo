@@ -11,6 +11,7 @@ require (
 	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.3.2
 	github.com/gogf/gf/contrib/nosql/redis/v2 v2.3.2
 	github.com/gogf/gf/v2 v2.3.2
+	github.com/golang-module/carbon/v2 v2.2.3 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
