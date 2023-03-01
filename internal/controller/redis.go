@@ -27,7 +27,9 @@ func (c *cRedis) Test(ctx context.Context, req *v1.RedisTestReq) (res *v1.RedisT
 	}
 	fmt.Println(value.String())
 
-	//res = &v1.RedisTestRes(value.String())
+	res = &v1.RedisTestRes{
+		Time: value.String(),
+	}
 
 	return
 }

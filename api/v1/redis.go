@@ -5,7 +5,9 @@ import (
 )
 
 type RedisTestReq struct {
-	g.Meta `path:"/redis-test" tags:"test" method:"get" summary:"You first hello api"`
+	g.Meta `path:"/redis-test" tags:"test" method:"get" dc:"test redis"`
 }
 
-type RedisTestRes string
+type RedisTestRes struct {
+	Time string `json:"time" dc:"get the val in redis"`
+}

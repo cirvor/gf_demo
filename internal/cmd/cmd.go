@@ -4,6 +4,7 @@ import (
 	"context"
 	"gf_demo/internal/consts"
 	"gf_demo/internal/controller"
+	"gf_demo/internal/controller/user"
 	"gf_demo/internal/service"
 
 	"github.com/gogf/gf/v2/net/goai"
@@ -30,13 +31,13 @@ var (
 				)
 				// 注册用户模块
 				group.Bind(
-					controller.UserNLI,
+					user.NLI,
 					controller.Redis,
 				)
 				group.Group("/", func(group *ghttp.RouterGroup) {
 					group.Middleware(service.Middleware().Auth)
 					group.Bind(
-						controller.User,
+						user.User,
 					)
 				})
 			})

@@ -1,4 +1,4 @@
-package controller
+package user
 
 import (
 	"context"
@@ -7,8 +7,8 @@ import (
 	"gf_demo/internal/service"
 )
 
-// UserNLI is the controller for user.
-var UserNLI = cUserNLI{}
+// NLI is the controller for user.
+var NLI = cUserNLI{}
 
 type cUserNLI struct{}
 
