@@ -4,6 +4,7 @@ import (
 	"context"
 	"gf_demo/internal/consts"
 	"gf_demo/internal/controller"
+	"gf_demo/internal/controller/goods"
 	"gf_demo/internal/controller/user"
 	"gf_demo/internal/service"
 
@@ -29,17 +30,39 @@ var (
 					service.Middleware().Ctx,
 					ghttp.MiddlewareCORS,
 				)
-				// 注册用户模块
+
 				group.Bind(
-					user.NLI,
 					controller.Redis,
 				)
-				group.Group("/", func(group *ghttp.RouterGroup) {
-					group.Middleware(service.Middleware().Auth)
+
+				// 路由注册用户模块
+				group.Group("/user", func(group *ghttp.RouterGroup) {
+					// 注册用户模块
 					group.Bind(
-						user.User,
+						user.NLI,
 					)
+					group.Group("/", func(group *ghttp.RouterGroup) {
+						group.Middleware(service.Middleware().Auth)
+						group.Bind(
+							user.User,
+						)
+					})
 				})
+
+				// 路由注册商品模块
+				group.Group("/goods", func(group *ghttp.RouterGroup) {
+					// 注册用户模块
+					group.Bind(
+						goods.NLI,
+					)
+					//group.Group("/", func(group *ghttp.RouterGroup) {
+					//	group.Middleware(service.Middleware().Auth)
+					//	group.Bind(
+					//		user.User,
+					//	)
+					//})
+				})
+
 			})
 
 			// 额外处理接口文档显示数据
