@@ -6,9 +6,9 @@ package entity
 
 // UserInfo is the golang structure for table user_info.
 type UserInfo struct {
-	UserId   uint   `json:"UserId"   ` //
-	Nickname string `json:"Nickname" ` //
-	Avatar   string `json:"Avatar"   ` //
-	Type     uint   `json:"Type"     ` //
-	Sex      uint   `json:"Sex"      ` //
+	UserId   uint   `json:"user_id"  ` //
+	Nickname string `json:"nickname" ` //
+	Avatar   string `json:"avatar"   ` //
+	Type     uint   `json:"type"     ` //
+	Sex      uint   `json:"sex"      ` //
 }

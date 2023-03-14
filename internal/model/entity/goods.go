@@ -10,9 +10,9 @@ import (
 
 // Goods is the golang structure for table goods.
 type Goods struct {
-	Id          uint        `json:"Id"          ` //
-	Name        string      `json:"Name"        ` //
-	Description string      `json:"Description" ` //
-	CreatedAt   *gtime.Time `json:"CreatedAt"   ` //
-	UpdatedAt   *gtime.Time `json:"UpdatedAt"   ` //
+	Id          uint        `json:"id"          ` //
+	Name        string      `json:"name"        ` //
+	Description string      `json:"description" ` //
+	CreatedAt   *gtime.Time `json:"created_at"  ` //
+	UpdatedAt   *gtime.Time `json:"updated_at"  ` //
 }
