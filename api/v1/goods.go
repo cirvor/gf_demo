@@ -12,9 +12,7 @@ type GoodsAddReq struct {
 	Description string `v:"required|length:6,16"`
 }
 
-type GoodsAddRes struct{}
-
-type GoodsInfoReq struct {
+type GoodsIdReq struct {
 	g.Meta `path:"/info" tags:"GoodsService" method:"get" dc:"show goods info"`
 	Id     int `v:"required"`
 }

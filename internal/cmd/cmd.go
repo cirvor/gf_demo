@@ -23,7 +23,7 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 			// 设置全局中间件
-			s.Use(ghttp.MiddlewareHandlerResponse)
+			s.Use(service.Middleware().HandlerResponse)
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				// Group middlewares.
 				group.Middleware(

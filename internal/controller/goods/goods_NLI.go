@@ -2,6 +2,7 @@ package goods
 
 import (
 	"context"
+	"gf_demo/api"
 	v1 "gf_demo/api/v1"
 	"gf_demo/internal/model"
 	"gf_demo/internal/service"
@@ -20,7 +21,7 @@ type cGoodsNLI struct{}
 //	@param req
 //	@return res
 //	@return err
-func (c *cGoodsNLI) Add(ctx context.Context, req *v1.GoodsAddReq) (res *v1.GoodsAddRes, err error) {
+func (c *cGoodsNLI) Add(ctx context.Context, req *v1.GoodsAddReq) (res *api.EmptyRes, err error) {
 	err = service.Goods().Add(ctx, &model.GoodsAddInput{
 		Name:        req.Name,
 		Description: req.Description,
@@ -36,7 +37,7 @@ func (c *cGoodsNLI) Add(ctx context.Context, req *v1.GoodsAddReq) (res *v1.Goods
 //	@param req
 //	@return res
 //	@return err
-func (c *cGoodsNLI) Info(ctx context.Context, req *v1.GoodsInfoReq) (res *v1.GoodsInfoRes, err error) {
+func (c *cGoodsNLI) Info(ctx context.Context, req *v1.GoodsIdReq) (res *v1.GoodsInfoRes, err error) {
 	// 查找产品信息
 	res = &v1.GoodsInfoRes{
 		Goods: service.Goods().Info(ctx, &model.GoodsIdInInput{Id: req.Id}),
