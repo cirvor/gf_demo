@@ -5,6 +5,8 @@ import (
 	"gf_demo/internal/service"
 	"net/http"
 
+	"github.com/gogf/gf/v2/frame/g"
+
 	"github.com/gogf/gf/v2/util/gvalid"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -25,30 +27,37 @@ func New() *sMiddleware {
 	return &sMiddleware{}
 }
 
-// Ctx injects custom business context variable into context of current request.
+// Ctx
+//
+//	@Description: 通过上下文传参
+//	@receiver s
+//	@param r
 func (s *sMiddleware) Ctx(r *ghttp.Request) {
 	customCtx := &model.Context{
 		Session: r.Session,
+		Data:    make(g.Map),
 	}
 	service.BizCtx().Init(r, customCtx)
 	if user := service.Session().GetUser(r.Context()); user != nil {
 		customCtx.User = &model.ContextUser{
 			UserId:   user.UserId,
-			Passport: user.Passport,
 			Nickname: user.Nickname,
 		}
 	}
+
+	// 将自定义的上下文对象传递到模板变量中使用
+	r.Assigns(g.Map{
+		"Context": customCtx,
+	})
+
 	// Continue execution of next middleware.
 	r.Middleware.Next()
 }
 
 // Auth validates the request to allow only signed-in users visit.
 func (s *sMiddleware) Auth(r *ghttp.Request) {
-	if service.User().IsSignedIn(r.Context()) {
-		r.Middleware.Next()
-	} else {
-		r.Response.WriteStatus(http.StatusForbidden)
-	}
+	service.Auth().MiddlewareFunc()(r)
+	r.Middleware.Next()
 }
 
 // CORS
@@ -61,12 +70,12 @@ func (s *sMiddleware) CORS(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 
-// HandlerResponse
+// ResponseHandler
 //
 //	@Description: 全局数据处理 + 异常捕获
 //	@receiver s
 //	@param r
-func (s *sMiddleware) HandlerResponse(r *ghttp.Request) {
+func (s *sMiddleware) ResponseHandler(r *ghttp.Request) {
 	r.Middleware.Next()
 
 	// There's custom buffer content, it then exits current handler.
@@ -83,14 +92,18 @@ func (s *sMiddleware) HandlerResponse(r *ghttp.Request) {
 	if err != nil {
 		// Validation error.
 		if v, ok := err.(gvalid.Error); ok {
-			code = gcode.CodeInvalidRequest
-			msg = v.FirstError().Error()
-		} else {
-			if code == gcode.CodeNil {
-				code = gcode.CodeInternalError
-			}
-			msg = err.Error()
+			// 处理
+			r.Response.WriteJsonExit(model.ResponseData{
+				Code:    66,
+				Message: v.FirstError().Error(),
+				Data:    res,
+			})
 		}
+
+		if code == gcode.CodeNil {
+			code = gcode.CodeInternalError
+		}
+		msg = err.Error()
 	} else {
 		if r.Response.Status > 0 && r.Response.Status != http.StatusOK {
 			msg = http.StatusText(r.Response.Status)

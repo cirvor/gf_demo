@@ -8,6 +8,8 @@ import (
 	"gf_demo/internal/model/entity"
 	"gf_demo/internal/service"
 
+	"github.com/gogf/gf/v2/frame/g"
+
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 )
@@ -85,7 +87,6 @@ func (s *sUser) SignIn(ctx context.Context, in model.UserSignInInput) (err error
 	}
 	service.BizCtx().SetUser(ctx, &model.ContextUser{
 		UserId:   user.UserId,
-		Passport: user.Passport,
 		Nickname: user.Nickname,
 	})
 	return nil
@@ -130,6 +131,11 @@ func (s *sUser) GetProfile(ctx context.Context) *entity.User {
 //	@param ctx
 //	@return *entity.User
 func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput) (bool, error) {
+	// todo 校验验证码
+	if in.Code != "123456" {
+		return false, nil
+	}
+
 	// todo 改为find查找
 	count, err := dao.User.Ctx(ctx).Where(do.User{
 		Mobile: in.Mobile,
@@ -138,4 +144,19 @@ func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput)
 		return false, err
 	}
 	return count == 1, nil
+}
+
+func (s *sUser) GetUserByMobile(ctx context.Context, in *model.UserLoginInput) map[string]interface{} {
+	user := entity.User{}
+	err := dao.User.Ctx(ctx).Where(do.User{
+		Mobile: in.Mobile,
+	}).Scan(&user)
+	if err != nil {
+		return nil
+	}
+
+	return g.Map{
+		"id":       user.UserId,
+		"username": user.Nickname,
+	}
 }

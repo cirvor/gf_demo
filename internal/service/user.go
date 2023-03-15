@@ -21,6 +21,7 @@ type (
 		IsNicknameAvailable(ctx context.Context, nickname string) (bool, error)
 		GetProfile(ctx context.Context) *entity.User
 		AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput) (bool, error)
+		GetUserByMobile(ctx context.Context, in *model.UserLoginInput) map[string]interface{}
 	}
 )
 
