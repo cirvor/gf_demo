@@ -20,6 +20,7 @@ type (
 		IsPassportAvailable(ctx context.Context, passport string) (bool, error)
 		IsNicknameAvailable(ctx context.Context, nickname string) (bool, error)
 		GetProfile(ctx context.Context) *entity.User
+		AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput) (bool, error)
 	}
 )
 

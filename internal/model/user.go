@@ -10,3 +10,8 @@ type UserSignInInput struct {
 	Passport string
 	Password string
 }
+
+type UserLoginInput struct {
+	Mobile string
+	Code   string
+}

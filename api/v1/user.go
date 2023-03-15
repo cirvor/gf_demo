@@ -2,6 +2,7 @@ package v1
 
 import (
 	"gf_demo/internal/model/entity"
+	"time"
 
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -52,3 +53,13 @@ type UserSignOutReq struct {
 	g.Meta `path:"/sign-out" method:"post" tags:"UserService" summary:"Sign out current user"`
 }
 type UserSignOutRes struct{}
+
+type UserLoginReq struct {
+	g.Meta `path:"/login" method:"post" tags:"UserService" summary:"Login with mobile and verify code"`
+	Mobile string `v:"required|phone"`
+	Code   string `v:"required|size:6"`
+}
+type UserLoginRes struct {
+	Token  string    `dc:"the token with JWT format"`
+	Expire time.Time `json:"expire" dc:"expired time of this token"`
+}

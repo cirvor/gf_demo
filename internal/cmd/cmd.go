@@ -27,8 +27,7 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				// Group middlewares.
 				group.Middleware(
-					service.Middleware().Ctx,
-					ghttp.MiddlewareCORS,
+					service.Middleware().CORS,
 				)
 
 				group.Bind(
@@ -42,7 +41,7 @@ var (
 						user.NLI,
 					)
 					group.Group("/", func(group *ghttp.RouterGroup) {
-						group.Middleware(service.Middleware().Auth)
+						//group.Middleware(service.Middleware().Auth)
 						group.Bind(
 							user.User,
 						)

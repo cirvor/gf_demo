@@ -122,3 +122,20 @@ func (s *sUser) IsNicknameAvailable(ctx context.Context, nickname string) (bool,
 func (s *sUser) GetProfile(ctx context.Context) *entity.User {
 	return service.Session().GetUser(ctx)
 }
+
+// AuthMobileAndCode
+//
+//	@Description: 通过手机号与验证码验证登陆信息
+//	@receiver s
+//	@param ctx
+//	@return *entity.User
+func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput) (bool, error) {
+	// todo 改为find查找
+	count, err := dao.User.Ctx(ctx).Where(do.User{
+		Mobile: in.Mobile,
+	}).Count()
+	if err != nil {
+		return false, err
+	}
+	return count == 1, nil
+}

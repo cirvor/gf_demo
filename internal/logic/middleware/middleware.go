@@ -51,13 +51,21 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 	}
 }
 
-// CORS allows Cross-origin resource sharing.
+// CORS
+//
+//	@Description: 跨域处理
+//	@receiver s
+//	@param r
 func (s *sMiddleware) CORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }
 
-// HandlerResponse is the default middleware handling handler response object and its error.
+// HandlerResponse
+//
+//	@Description: 全局数据处理 + 异常捕获
+//	@receiver s
+//	@param r
 func (s *sMiddleware) HandlerResponse(r *ghttp.Request) {
 	r.Middleware.Next()
 

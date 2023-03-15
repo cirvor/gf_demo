@@ -8,6 +8,7 @@ require (
 	github.com/fatih/color v1.14.1 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/gogf/gf-jwt/v2 v2.0.1 // indirect
 	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.3.2
 	github.com/gogf/gf/contrib/nosql/redis/v2 v2.3.2
 	github.com/gogf/gf/v2 v2.3.2
