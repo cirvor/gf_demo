@@ -25,6 +25,25 @@ func New() *sUser {
 	return &sUser{}
 }
 
+// Create
+//
+//	@Description: 创建新账号
+//	@receiver s
+//	@param ctx
+//	@param mobile
+//	@return error
+func (s *sUser) Create(ctx context.Context, mobile string) error {
+	_, err := dao.User.Ctx(ctx).Insert(do.User{
+		Mobile:   mobile,
+		Nickname: "动手家",
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // IsMobileExist
 //
 //	@Description: 校验当前手机号是否存在
@@ -34,19 +53,20 @@ func New() *sUser {
 //	@return bool
 //	@return error
 func (s *sUser) IsMobileExist(ctx context.Context, mobile string) (bool, error) {
-	count, err := dao.User.Ctx(ctx).Where(do.User{
+	res, err := dao.User.Ctx(ctx).Fields("user_id").Where(do.User{
 		Mobile: mobile,
-	}).Count()
+	}).One()
 	if err != nil {
 		return false, err
 	}
-	return count == 0, nil
+
+	return res != nil, nil
 }
 
 // GetProfile retrieves and returns current user info in session.
 func (s *sUser) GetProfile(ctx context.Context) (user *entity.User, err error) {
-	userId := service.Auth().GetIdentity(ctx)
-	//glog.Warning(ctx, userId)
+	// 通过上下文读取user_id
+	userId := ctx.Value("user_id")
 
 	err = dao.User.Ctx(ctx).WherePri(userId).Scan(&user)
 	if err != nil {
@@ -71,14 +91,7 @@ func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput)
 		return false, nil
 	}
 
-	// todo 改为find查找
-	count, err := dao.User.Ctx(ctx).Where(do.User{
-		Mobile: in.Mobile,
-	}).Count()
-	if err != nil {
-		return false, err
-	}
-	return count == 1, nil
+	return true, nil
 }
 
 // GetUserByMobile
@@ -90,7 +103,7 @@ func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput)
 //	@return map[string]interface{}
 func (s *sUser) GetUserByMobile(ctx context.Context, in *model.UserLoginInput) map[string]interface{} {
 	user := entity.User{}
-	err := dao.User.Ctx(ctx).Where(do.User{
+	err := dao.User.Ctx(ctx).Fields("user_id").Where(do.User{
 		Mobile: in.Mobile,
 	}).Scan(&user)
 	if err != nil {
@@ -98,7 +111,6 @@ func (s *sUser) GetUserByMobile(ctx context.Context, in *model.UserLoginInput) m
 	}
 
 	return g.Map{
-		"id":       user.UserId,
-		"username": user.Nickname,
+		"id": user.UserId,
 	}
 }

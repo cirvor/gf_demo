@@ -5,6 +5,8 @@ import (
 	"gf_demo/internal/service"
 	"net/http"
 
+	"github.com/gogf/gf/v2/util/gconv"
+
 	"github.com/gogf/gf/v2/util/gvalid"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -32,12 +34,15 @@ func New() *sMiddleware {
 //	@param r
 func (s *sMiddleware) Auth(r *ghttp.Request) {
 	service.Auth().MiddlewareFunc()(r)
+
+	// 验证成功后，通过上下文传递user_id
+	r.SetCtxVar("user_id", gconv.Int(service.Auth().GetIdentity(r.GetCtx())))
 	r.Middleware.Next()
 }
 
 // CORS
 //
-//	@Description: 跨域处理
+//	@Description: 处理跨域问题
 //	@receiver s
 //	@param r
 func (s *sMiddleware) CORS(r *ghttp.Request) {
@@ -65,7 +70,7 @@ func (s *sMiddleware) ResponseHandler(r *ghttp.Request) {
 		code = gerror.Code(err)
 	)
 	if err != nil {
-		// Validation error.
+		// 处理请求校验错误
 		if v, ok := err.(gvalid.Error); ok {
 			// 处理
 			r.Response.WriteJsonExit(model.ResponseData{

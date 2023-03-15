@@ -21,9 +21,9 @@ func init() {
 		Realm:           consts.JWTRealm,
 		Key:             []byte(consts.JWTSecretKey),
 		Timeout:         time.Hour * 24 * 7,
-		MaxRefresh:      time.Hour * 24 * 7,
+		MaxRefresh:      0, // 禁用刷新token 避免不可控的token缓存占用
 		IdentityKey:     "id",
-		TokenLookup:     "header: Authorization, query: token, cookie: jwt",
+		TokenLookup:     "header: Authorization",
 		TokenHeadName:   "Bearer",
 		TimeFunc:        time.Now,
 		Authenticator:   Authenticator,

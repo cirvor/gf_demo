@@ -13,6 +13,7 @@ import (
 
 type (
 	IUser interface {
+		Create(ctx context.Context, mobile string) error
 		IsMobileExist(ctx context.Context, mobile string) (bool, error)
 		GetProfile(ctx context.Context) (user *entity.User, err error)
 		AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput) (bool, error)
