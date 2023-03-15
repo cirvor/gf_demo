@@ -8,6 +8,12 @@ import (
 	"gf_demo/internal/model/entity"
 	"gf_demo/internal/service"
 
+	"github.com/gogf/gf/v2/database/gdb"
+
+	"github.com/gogf/gf/v2/util/gconv"
+
+	"github.com/gogf/gf/v2/util/grand"
+
 	"github.com/gogf/gf/v2/frame/g"
 
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -33,15 +39,27 @@ func New() *sUser {
 //	@param mobile
 //	@return error
 func (s *sUser) Create(ctx context.Context, mobile string) error {
-	_, err := dao.User.Ctx(ctx).Insert(do.User{
-		Mobile:   mobile,
-		Nickname: "动手家",
-	})
-	if err != nil {
-		return err
-	}
+	// 使用事务创建账号与关联数据
+	return g.DB().Transaction(context.TODO(), func(ctx context.Context, tx gdb.TX) error {
+		// 创建用户表数据
+		lastInsertId, err := dao.User.Ctx(ctx).InsertAndGetId(do.User{
+			Mobile: mobile,
+		})
+		if err != nil {
+			return err
+		}
 
-	return nil
+		// 同步创建用户信息表数据
+		_, err = dao.UserInfo.Ctx(ctx).Insert(do.UserInfo{
+			UserId:   lastInsertId,
+			Nickname: "动手家" + gconv.String(grand.N(12345, 99999)),
+		})
+
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 }
 
 // IsMobileExist

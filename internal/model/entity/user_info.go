@@ -10,5 +10,5 @@ type UserInfo struct {
 	Nickname string `json:"nickname" ` //
 	Avatar   string `json:"avatar"   ` //
 	Type     uint   `json:"type"     ` //
-	Sex      uint   `json:"sex"      ` //
+	Gender   uint   `json:"gender"   ` //
 }

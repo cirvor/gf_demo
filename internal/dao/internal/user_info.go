@@ -24,7 +24,7 @@ type UserInfoColumns struct {
 	Nickname string //
 	Avatar   string //
 	Type     string //
-	Sex      string //
+	Gender   string //
 }
 
 // userInfoColumns holds the columns for table user_info.
@@ -33,7 +33,7 @@ var userInfoColumns = UserInfoColumns{
 	Nickname: "nickname",
 	Avatar:   "avatar",
 	Type:     "type",
-	Sex:      "sex",
+	Gender:   "gender",
 }
 
 // NewUserInfoDao creates and returns a new DAO object for table data access.

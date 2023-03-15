@@ -15,5 +15,5 @@ type UserInfo struct {
 	Nickname interface{} //
 	Avatar   interface{} //
 	Type     interface{} //
-	Sex      interface{} //
+	Gender   interface{} //
 }
