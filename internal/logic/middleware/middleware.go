@@ -5,8 +5,6 @@ import (
 	"gf_demo/internal/service"
 	"net/http"
 
-	"github.com/gogf/gf/v2/frame/g"
-
 	"github.com/gogf/gf/v2/util/gvalid"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -25,33 +23,6 @@ func init() {
 
 func New() *sMiddleware {
 	return &sMiddleware{}
-}
-
-// Ctx
-//
-//	@Description: 通过上下文传参
-//	@receiver s
-//	@param r
-func (s *sMiddleware) Ctx(r *ghttp.Request) {
-	customCtx := &model.Context{
-		Session: r.Session,
-		Data:    make(g.Map),
-	}
-	service.BizCtx().Init(r, customCtx)
-	if user := service.Session().GetUser(r.Context()); user != nil {
-		customCtx.User = &model.ContextUser{
-			UserId:   user.UserId,
-			Nickname: user.Nickname,
-		}
-	}
-
-	// 将自定义的上下文对象传递到模板变量中使用
-	r.Assigns(g.Map{
-		"Context": customCtx,
-	})
-
-	// Continue execution of next middleware.
-	r.Middleware.Next()
 }
 
 // Auth

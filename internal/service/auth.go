@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"gf_demo/internal/consts"
 	"gf_demo/internal/model"
 	"time"
 
@@ -17,8 +18,8 @@ func Auth() *jwt.GfJWTMiddleware {
 
 func init() {
 	auth := jwt.New(&jwt.GfJWTMiddleware{
-		Realm:           "shop",
-		Key:             []byte("secret key"),
+		Realm:           consts.JWTRealm,
+		Key:             []byte(consts.JWTSecretKey),
 		Timeout:         time.Hour * 24 * 7,
 		MaxRefresh:      time.Hour * 24 * 7,
 		IdentityKey:     "id",

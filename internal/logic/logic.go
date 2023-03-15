@@ -5,9 +5,7 @@
 package logic
 
 import (
-	_ "gf_demo/internal/logic/bizctx"
 	_ "gf_demo/internal/logic/goods"
 	_ "gf_demo/internal/logic/middleware"
-	_ "gf_demo/internal/logic/session"
 	_ "gf_demo/internal/logic/user"
 )
