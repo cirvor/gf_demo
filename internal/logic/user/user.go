@@ -146,6 +146,13 @@ func (s *sUser) AuthMobileAndCode(ctx context.Context, in *model.UserLoginInput)
 	return count == 1, nil
 }
 
+// GetUserByMobile
+//
+//	@Description: 通过手机号查询用户信息
+//	@receiver s
+//	@param ctx
+//	@param in
+//	@return map[string]interface{}
 func (s *sUser) GetUserByMobile(ctx context.Context, in *model.UserLoginInput) map[string]interface{} {
 	user := entity.User{}
 	err := dao.User.Ctx(ctx).Where(do.User{

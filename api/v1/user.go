@@ -2,7 +2,6 @@ package v1
 
 import (
 	"gf_demo/internal/model/entity"
-	"time"
 
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -60,6 +59,6 @@ type UserLoginReq struct {
 	Code   string `v:"required|size:6"`
 }
 type UserLoginRes struct {
-	Token  string    `dc:"the token with JWT format"`
-	Expire time.Time `json:"expire" dc:"expired time of this token"`
+	Token   string `json:"token" dc:"the token with JWT format"`
+	Expired int64  `json:"expired" dc:"expired time of this token"`
 }

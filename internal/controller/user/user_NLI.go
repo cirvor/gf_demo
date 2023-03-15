@@ -6,6 +6,8 @@ import (
 	"gf_demo/internal/model"
 	"gf_demo/internal/service"
 
+	"github.com/golang-module/carbon/v2"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 )
 
@@ -51,8 +53,14 @@ func (c *cUserNLI) LoginIn(ctx context.Context, req *v1.UserLoginReq) (res *v1.U
 	}
 	if !isExist {
 		//err = gerror.NewCode(gcode.New(10000, "11111", nil), "用户校验失败")
-		err = gerror.New("用户校验失败")
+		err = gerror.New("验证码校验失败")
 		return
+	}
+
+	token, time := service.Auth().LoginHandler(ctx)
+	res = &v1.UserLoginRes{
+		Token:   token,
+		Expired: carbon.Time2Carbon(time).Timestamp(),
 	}
 	return
 }
