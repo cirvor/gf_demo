@@ -54,7 +54,11 @@ func (s *sMiddleware) Ctx(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 
-// Auth validates the request to allow only signed-in users visit.
+// Auth
+//
+//	@Description: 调用jwt验证中间件
+//	@receiver s
+//	@param r
 func (s *sMiddleware) Auth(r *ghttp.Request) {
 	service.Auth().MiddlewareFunc()(r)
 	r.Middleware.Next()
